@@ -38,16 +38,17 @@ public class UserService {
     }
 
     public User loginUser(String username, String password) {
-        User tempUser = this.userRepository.findByUsername(username);
-        if (tempUser != null) {
-            if (password.equals(tempUser.getPassword())) {
-                tempUser.setStatus(UserStatus.ONLINE);
-                log.debug("Logging in User: {}", tempUser);
-                return tempUser;
-            }
-            return null;
+        User tempUser = this.getUserByUsername(username);
+        if (password.equals(tempUser.getPassword())) {
+            tempUser.setStatus(UserStatus.ONLINE);
+            log.debug("Logging in User: {}", tempUser);
+            return tempUser;
+        } else {
+            return null; // TODO: Include an exception when the password is incorrect.
         }
-        return null;
     }
 
+    public User getUserByUsername (String username) {
+        return this.userRepository.findByUsername(username);
+    }
 }
