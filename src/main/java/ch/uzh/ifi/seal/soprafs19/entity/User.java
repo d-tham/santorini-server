@@ -15,7 +15,9 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
+	@Id // primary key annotation
+	// @NotBlank Not null or not empty
+	// Possibly use javax.validation for automatic rejection of invalid requests, makes it easier
 	@GeneratedValue
 	private Long id;
 	
@@ -27,6 +29,9 @@ public class User implements Serializable {
 	
 	@Column(nullable = false, unique = true) 
 	private String token;
+
+	@Column(nullable = false)
+	private String password;
 
 	@Column(nullable = false)
 	private UserStatus status;
@@ -62,6 +67,10 @@ public class User implements Serializable {
 	public void setToken(String token) {
 		this.token = token;
 	}
+
+	public String getPassword() { return password; }
+
+	public void setPassword(String password) { this.password = password;}
 
 	public UserStatus getStatus() {
 		return status;

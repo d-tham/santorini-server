@@ -31,9 +31,23 @@ public class UserService {
 
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.ONLINE);
+        newUser.setStatus(UserStatus.OFFLINE);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
+
+    public User loginUser(String username, String password) {
+        User tempUser = this.userRepository.findByUsername(username);
+        if (tempUser != null) {
+            if (password.equals(tempUser.getPassword())) {
+                tempUser.setStatus(UserStatus.ONLINE);
+                log.debug("Logging in User: {}", tempUser);
+                return tempUser;
+            }
+            return null;
+        }
+        return null;
+    }
+
 }
