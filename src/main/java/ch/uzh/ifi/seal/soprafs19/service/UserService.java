@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,7 +20,6 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
-
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -33,7 +33,7 @@ public class UserService {
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.OFFLINE);
-        newUser.setCreationdate(new Date());
+        newUser.setCreationDate(new Date());
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -52,5 +52,9 @@ public class UserService {
 
     public User getUserByUsername (String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+    public User getUserByUserId (long id) {
+        return this.userRepository.findById(id);
     }
 }

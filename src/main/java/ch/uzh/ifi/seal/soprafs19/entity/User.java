@@ -84,9 +84,9 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	public void setCreationDate(Date creationdate) { this.creationDate = creationdate; }
+	public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
 
-	public Date getCredationdate() {return creationDate; }
+	public Date getCredationDate() {return creationDate; }
 
 
 	@Override

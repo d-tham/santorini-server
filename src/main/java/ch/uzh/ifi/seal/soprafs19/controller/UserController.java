@@ -31,6 +31,9 @@ public class UserController {
         return this.service.createUser(newUser);
     }
 
+    @GetMapping("/users/{userId}")
+    User single(@PathVariable("userId") long userId) { return service.getUserByUserId(userId);}
+
     @PostMapping("/login")
     @ExceptionHandler({UserNotFoundException.class})
     User loginUser(@RequestBody User tempUser) {
