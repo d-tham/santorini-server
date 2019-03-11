@@ -37,8 +37,11 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private UserStatus status;
 
+	private Date birthDate;
+
 	@Column(nullable = false)
 	private Date creationDate;
+
 
 	public Long getId() {
 		return id;
@@ -83,6 +86,10 @@ public class User implements Serializable {
 	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
+
+	public void setBirthDate(Date birthDate) { this.birthDate = birthDate;}
+
+	public Date getBirthDate() { return birthDate;}
 
 	public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
 

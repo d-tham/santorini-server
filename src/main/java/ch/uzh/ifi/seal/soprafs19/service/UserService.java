@@ -49,6 +49,14 @@ public class UserService {
         }
     }
 
+    public User updateUser(long id, String username, Date birthDate) {
+        User tempUser = this.getUserByUserId(id);
+        tempUser.setUsername(username);
+        tempUser.setBirthDate(birthDate);
+        userRepository.save(tempUser);
+        return tempUser;
+    }
+
     public User getUserByUsername (String username) { return this.userRepository.findByUsername(username); }
 
     public User getUserByUserId (long id) {

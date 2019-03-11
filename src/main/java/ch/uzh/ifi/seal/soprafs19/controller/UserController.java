@@ -48,4 +48,9 @@ public class UserController {
         return service.loginUser(tempUser.getUsername(), tempUser.getPassword());
     }
 
+    @PutMapping("/users/{userId}")
+    User updateUser(@PathVariable("userId") long userId, @RequestBody User tempUser) {
+        return this.service.updateUser(userId, tempUser.getUsername(), tempUser.getBirthDate());
+    }
+
 }
