@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -50,11 +49,11 @@ public class UserService {
         }
     }
 
-    public User getUserByUsername (String username) {
-        return this.userRepository.findByUsername(username);
-    }
+    public User getUserByUsername (String username) { return this.userRepository.findByUsername(username); }
 
     public User getUserByUserId (long id) {
         return this.userRepository.findById(id);
     }
+
+    public User getUserByToken (String token) { return this.userRepository.findByToken(token); }
 }

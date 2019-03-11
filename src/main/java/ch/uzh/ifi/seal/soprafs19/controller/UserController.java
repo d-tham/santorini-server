@@ -5,8 +5,8 @@ import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import ch.uzh.ifi.seal.soprafs19.exceptions.*;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class UserController {
@@ -32,7 +32,12 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    User single(@PathVariable("userId") long userId) { return service.getUserByUserId(userId);}
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    User single(@PathVariable("userId") long userId) {
+        if (this.service.getUserByUserId(userId) == null) {
+            throw new UserNotFoundException("User was not found!"); }
+
+        return service.getUserByUserId(userId);}
 
     @PostMapping("/login")
     @ExceptionHandler({UserNotFoundException.class})
