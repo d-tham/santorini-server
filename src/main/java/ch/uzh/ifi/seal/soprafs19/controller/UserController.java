@@ -48,8 +48,12 @@ public class UserController {
         return service.loginUser(tempUser.getUsername(), tempUser.getPassword());
     }
 
+    @CrossOrigin
     @PutMapping("/users/{userId}")
     User updateUser(@PathVariable("userId") long userId, @RequestBody User tempUser) {
+        if (!this.service.getUserByUserId(userId).getToken().equals(tempUser.getToken())) {
+            throw new RuntimeException("NOT AUTHORIZED");
+        }
         return this.service.updateUser(userId, tempUser.getUsername(), tempUser.getBirthDate());
     }
 

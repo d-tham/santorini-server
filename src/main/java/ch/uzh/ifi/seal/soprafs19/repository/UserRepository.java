@@ -4,7 +4,7 @@ import ch.uzh.ifi.seal.soprafs19.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-// @Repository("userRepository")
+@Repository("userRepository")
 public interface UserRepository extends CrudRepository<User, Long> { // User (Type of object), Long(Type of ID column)
 	User findByName(String name);
 	User findById(long id);
