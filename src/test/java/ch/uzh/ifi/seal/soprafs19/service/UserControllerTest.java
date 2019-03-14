@@ -27,11 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import java.util.Date;
-import java.util.Iterator;
 
 /**
- * Test class for the UserResource REST resource.
- *
+ * Test class for the the controller.
+ * Some tests don't work when ran all together.
  * @see UserController
  */
 @WebAppConfiguration
@@ -196,6 +195,42 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("Access-Token", createdUser.getToken()))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testUpdateUserInvalid() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        this.mockMvc.perform(put("/users/1")
+                .content("{\"username\": \"changedName\", \"birthDate\" : \"1999-12-13T00:00:00.000+0000\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("Access-Token", "Invalid Token"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testUpdateUserNotFound() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        User createdUser = userService.createUser(testUser);
+
+        this.mockMvc.perform(put("/users/2")
+                .content("{\"username\": \"changedName\", \"birthDate\" : \"1999-12-13T00:00:00.000+0000\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("Access-Token", createdUser.getToken()))
+                .andExpect(status().isNotFound());
     }
 
 
