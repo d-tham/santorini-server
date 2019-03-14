@@ -64,4 +64,8 @@ public class UserService {
     }
 
     public User getUserByToken (String token) { return this.userRepository.findByToken(token); }
+
+    public Boolean validateToken(String token) {
+        return this.userRepository.findByToken(token) != null;
+    }
 }

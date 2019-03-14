@@ -32,8 +32,10 @@ public class UserController {
 
     @GetMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    User single(@PathVariable("userId") long userId) {
-        if (this.service.getUserByUserId(userId) == null) {
+    User single(@RequestHeader(value = "Access-Token") String token, @PathVariable("userId") long userId) {
+        if (!this.service.validateToken(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token!"); }
+        else if (this.service.getUserByUserId(userId) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found!"); }
 
         return this.service.getUserByUserId(userId);}
