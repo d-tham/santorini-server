@@ -13,12 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.hasValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,6 +45,7 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Qualifier ("userRepository")
     @Autowired
     private UserRepository userRepository;
 
@@ -58,13 +61,34 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testGetUserWithoutAny() throws Exception {
+    public void testCreateUser() throws Exception {
         userRepository.deleteAll();
-        this.mockMvc.perform(get("/users/1")).andExpect(status().isNotFound());
+        this.mockMvc.perform(post("/users")
+                .content("{\"username\": \"testUsername\", \"name\" : \"testName\", \"password\" : \"testPassword\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    public void testGetUser() throws Exception {
+    public void testCreateUserConflict() throws Exception {
+        userRepository.deleteAll();
+
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        this.mockMvc.perform(post("/users")
+                .content("{\"username\": \"testUsername\", \"name\" : \"testName\", \"password\" : \"testPassword\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void testGetUserValidToken() throws Exception {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
@@ -74,7 +98,104 @@ public class UserControllerTest {
 
         User createdUser = userService.createUser(testUser);
 
-        this.mockMvc.perform(get("/users/1")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/users/1").header("Access-Token", createdUser.getToken())).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetUserInvalidToken() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        this.mockMvc.perform(get("/users/1").header("Access-Token", "Invalid Token")).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testGetUserNotFound() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        User createdUser = userService.createUser(testUser);
+
+        this.mockMvc.perform(get("/users/9").header("Access-Token", createdUser.getToken())).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testLoginUser() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        this.mockMvc.perform(post("/login")
+                .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testLoginUserInvalid() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        this.mockMvc.perform(post("/login")
+                .content("{\"username\": \"testUsername\", \"password\" : \"wrongPassword\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testLoginUserNotFound() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        this.mockMvc.perform(post("/login")
+                .content("{\"username\": \"wrongUsername\", \"password\" : \"wrongPassword\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        User createdUser = userService.createUser(testUser);
+
+        this.mockMvc.perform(put("/users/1")
+                .content("{\"username\": \"changedName\", \"birthDate\" : \"1999-12-13T00:00:00.000+0000\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("Access-Token", createdUser.getToken()))
+                .andExpect(status().isNoContent());
     }
 
 

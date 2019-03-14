@@ -54,10 +54,10 @@ public class UserController {
     @CrossOrigin
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void updateUser(@PathVariable("userId") long userId, @RequestBody User tempUser) {
+    void updateUser(@RequestHeader(value = "Access-Token") String token, @PathVariable("userId") long userId, @RequestBody User tempUser) {
         if (this.service.getUserByUserId(userId) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found!");
-        } else if (!this.service.getUserByUserId(userId).getToken().equals(tempUser.getToken())) {
+        } else if (!this.service.getUserByUserId(userId).getToken().equals(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authorized!");
         } else {
             this.service.updateUser(userId, tempUser.getUsername(), tempUser.getBirthDate());

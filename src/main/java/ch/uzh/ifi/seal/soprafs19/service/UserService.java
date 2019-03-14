@@ -68,4 +68,5 @@ public class UserService {
     public Boolean validateToken(String token) {
         return this.userRepository.findByToken(token) != null;
     }
+
 }

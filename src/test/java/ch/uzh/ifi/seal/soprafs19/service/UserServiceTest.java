@@ -83,7 +83,7 @@ public class UserServiceTest {
 
         userService.createUser(testUser);
 
-        userService.updateUser(1, "changedUsername", new Date(1994, 12, 14));
+        userService.updateUser(1, "changedUsername", new Date(1994, 12, 14)); // Causes null-pointer exception when ran together.
 
         Assert.assertEquals(userService.getUserByUserId(1).getUsername(), "changedUsername");
         Assert.assertTrue(userService.getUserByUserId(1).getBirthDate().compareTo(new Date(1994, 12, 14)) == 0);
