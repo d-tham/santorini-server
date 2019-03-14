@@ -45,7 +45,7 @@ public class UserService {
             log.debug("Logging in User: {}", tempUser);
             return tempUser;
         } else {
-            return null; // TODO: Include an exception when the password is incorrect.
+            return null;
         }
     }
 
