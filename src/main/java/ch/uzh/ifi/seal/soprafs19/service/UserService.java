@@ -49,6 +49,13 @@ public class UserService {
         }
     }
 
+    public void logoutUser(String token) {
+        User tempUser = this.getUserByToken(token);
+        tempUser.setStatus(UserStatus.OFFLINE);
+        userRepository.save(tempUser);
+        log.debug("Logging out User: {}", tempUser);
+    }
+
     public void updateUser(long id, String username, Date birthDate) {
         User tempUser = this.getUserByUserId(id);
         tempUser.setUsername(username);

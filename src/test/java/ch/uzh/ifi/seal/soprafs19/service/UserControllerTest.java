@@ -138,11 +138,14 @@ public class UserControllerTest {
         testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
         this.mockMvc.perform(post("/login")
                 .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
+
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.ONLINE);
     }
 
     @Test
@@ -155,11 +158,14 @@ public class UserControllerTest {
         testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
         this.mockMvc.perform(post("/login")
                 .content("{\"username\": \"testUsername\", \"password\" : \"wrongPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isUnauthorized());
+
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
     }
 
     @Test
@@ -172,11 +178,41 @@ public class UserControllerTest {
         testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
         this.mockMvc.perform(post("/login")
                 .content("{\"username\": \"wrongUsername\", \"password\" : \"wrongPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
+
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
+    }
+
+    @Test
+    public void testLogoutUser() throws Exception {
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setUsername("testUsername");
+        testUser.setName("testName");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
+
+        this.mockMvc.perform(post("/login")
+                .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.ONLINE);
+
+        this.mockMvc.perform(post("/logout")
+                .header("Access-Token", testUser.getToken())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
     }
 
     @Test

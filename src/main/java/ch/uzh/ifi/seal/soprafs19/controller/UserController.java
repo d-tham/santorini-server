@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -51,6 +52,15 @@ public class UserController {
         return this.service.loginUser(tempUser.getUsername(), tempUser.getPassword());
     }
 
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.OK)
+    void logoutUser(@RequestHeader(value ="Access-Token") String token) {
+        if (this.service.getUserByToken(token) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found!"); }
+
+        this.service.logoutUser(token);
+    }
+
     @CrossOrigin
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -59,6 +69,8 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found!");
         } else if (!this.service.getUserByUserId(userId).getToken().equals(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authorized!");
+        } else if (this.service.getUserByUsername(tempUser.getUsername()) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Already another user with the same name exists!");
         } else {
             this.service.updateUser(userId, tempUser.getUsername(), tempUser.getBirthDate());
         }

@@ -72,6 +72,26 @@ public class UserServiceTest {
     }
 
     @Test
+    public void logoutUser() {
+        userRepository.deleteAll();
+
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+        User loggedInUser = userService.loginUser("testUsername", "testPassword");
+
+        Assert.assertNotNull(loggedInUser);
+        Assert.assertEquals(UserStatus.ONLINE, userService.getUserByUsername("testUsername").getStatus());
+
+        userService.logoutUser(loggedInUser.getToken());
+        Assert.assertEquals(userService.getUserByUsername("testUsername").getStatus(), UserStatus.OFFLINE);
+    }
+
+    @Test
     public void updateUser() {
         userRepository.deleteAll();
 
