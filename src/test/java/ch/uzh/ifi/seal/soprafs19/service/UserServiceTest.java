@@ -72,6 +72,25 @@ public class UserServiceTest {
     }
 
     @Test
+    public void updateUser() {
+        userRepository.deleteAll();
+
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        testUser.setBirthDate(new Date());
+
+        userService.createUser(testUser);
+
+        userService.updateUser(1, "changedUsername", new Date(1994, 12, 14));
+
+        Assert.assertEquals(userService.getUserByUserId(1).getUsername(), "changedUsername");
+        Assert.assertTrue(userService.getUserByUserId(1).getBirthDate().compareTo(new Date(1994, 12, 14)) == 0);
+
+    }
+
+    @Test
     public void getUsers() {
         userRepository.deleteAll();
 
