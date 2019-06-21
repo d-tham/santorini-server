@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.Date;
 import java.util.Iterator;
 
 /**

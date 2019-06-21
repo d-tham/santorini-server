@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Service
 @Transactional
@@ -32,7 +32,7 @@ public class UserService {
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.OFFLINE);
-        newUser.setCreationDate(new Date());
+        newUser.setCreationDate(LocalDate.now());
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
