@@ -62,7 +62,7 @@ public class UserControllerTest {
     public void testCreateUser() throws Exception {
         userRepository.deleteAll();
         this.mockMvc.perform(post("/users")
-                .content("{\"username\": \"testUsername\", \"name\" : \"testName\", \"password\" : \"testPassword\"}")
+                .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated());
     }
@@ -73,14 +73,13 @@ public class UserControllerTest {
 
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
 
         this.mockMvc.perform(post("/users")
-                .content("{\"username\": \"testUsername\", \"name\" : \"testName\", \"password\" : \"testPassword\"}")
+                .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isConflict());
     }
@@ -90,7 +89,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -104,7 +102,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -118,7 +115,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -132,7 +128,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -152,7 +147,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -172,7 +166,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -192,7 +185,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -219,7 +211,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -237,7 +228,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 
@@ -255,7 +245,6 @@ public class UserControllerTest {
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
-        testUser.setName("testName");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
 

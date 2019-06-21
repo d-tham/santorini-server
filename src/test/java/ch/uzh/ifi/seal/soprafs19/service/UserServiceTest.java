@@ -43,7 +43,6 @@ public class UserServiceTest {
         Assert.assertNull(userRepository.findByUsername("testUsername"));
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
@@ -61,7 +60,6 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
@@ -78,7 +76,6 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
@@ -98,7 +95,6 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
@@ -117,19 +113,16 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         userService.createUser(testUser);
 
         User testUser2 = new User();
-        testUser2.setName("testName2");
         testUser2.setUsername("testUsername2");
         testUser2.setPassword("testPassword2");
         userService.createUser(testUser2);
 
         User testUser3 = new User();
-        testUser3.setName("testName3");
         testUser3.setUsername("testUsername3");
         testUser3.setPassword("testPassword3");
         userService.createUser(testUser3);
@@ -150,7 +143,6 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
@@ -167,7 +159,6 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
@@ -184,7 +175,6 @@ public class UserServiceTest {
         userRepository.deleteAll();
 
         User testUser = new User();
-        testUser.setName("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setBirthDate(new Date());
