@@ -70,7 +70,7 @@ public class UserController {
         } else if (this.service.getUserByUsername(tempUser.getUsername()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Already another user with the same name exists!");
         } else {
-            this.service.updateUser(userId, tempUser.getUsername(), tempUser.getBirthDate());
+            this.service.updateUser(userId, tempUser.getUsername());
         }
     }
 

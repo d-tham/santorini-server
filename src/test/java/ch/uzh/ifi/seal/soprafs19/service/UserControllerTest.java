@@ -74,7 +74,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
 
@@ -90,7 +89,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
@@ -103,7 +101,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
 
@@ -116,7 +113,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
@@ -129,7 +125,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
@@ -148,7 +143,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
@@ -167,7 +161,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
@@ -186,7 +179,6 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
@@ -212,12 +204,11 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
         this.mockMvc.perform(put("/users/1")
-                .content("{\"username\": \"changedName\", \"birthDate\" : \"1999-12-13T00:00:00.000+0000\"}")
+                .content("{\"username\": \"changedName\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("Access-Token", createdUser.getToken()))
                 .andExpect(status().isNoContent());
@@ -229,12 +220,11 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
 
         this.mockMvc.perform(put("/users/1")
-                .content("{\"username\": \"changedName\", \"birthDate\" : \"1999-12-13T00:00:00.000+0000\"}")
+                .content("{\"username\": \"changedName\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("Access-Token", "Invalid Token"))
                 .andExpect(status().isUnauthorized());
@@ -246,12 +236,11 @@ public class UserControllerTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
         this.mockMvc.perform(put("/users/2")
-                .content("{\"username\": \"changedName\", \"birthDate\" : \"1999-12-13T00:00:00.000+0000\"}")
+                .content("{\"username\": \"changedName\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .header("Access-Token", createdUser.getToken()))
                 .andExpect(status().isNotFound());

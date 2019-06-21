@@ -56,10 +56,9 @@ public class UserService {
         log.debug("Logging out User: {}", tempUser);
     }
 
-    public void updateUser(long id, String username, Date birthDate) {
+    public void updateUser(long id, String username) {
         User tempUser = this.getUserByUserId(id);
         tempUser.setUsername(username);
-        tempUser.setBirthDate(birthDate);
         userRepository.save(tempUser);
     }
 

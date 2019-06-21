@@ -45,7 +45,6 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
@@ -62,7 +61,6 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
         User loggedInUser = userService.loginUser("testUsername", "testPassword");
@@ -78,7 +76,6 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
         User loggedInUser = userService.loginUser("testUsername", "testPassword");
@@ -97,15 +94,12 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         userService.createUser(testUser);
 
-        userService.updateUser(1, "changedUsername", new Date(1994, 12, 14)); // Causes null-pointer exception when ran together.
+        userService.updateUser(1, "changedUsername"); // Causes null-pointer exception when ran together.
 
         Assert.assertEquals(userService.getUserByUserId(1).getUsername(), "changedUsername");
-        Assert.assertTrue(userService.getUserByUserId(1).getBirthDate().compareTo(new Date(1994, 12, 14)) == 0);
-
     }
 
     @Test
@@ -145,7 +139,6 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
@@ -161,7 +154,6 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
@@ -177,7 +169,6 @@ public class UserServiceTest {
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
-        testUser.setBirthDate(new Date());
 
         User createdUser = userService.createUser(testUser);
 
