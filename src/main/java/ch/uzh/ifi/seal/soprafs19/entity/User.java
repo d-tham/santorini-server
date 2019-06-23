@@ -12,14 +12,11 @@ import javax.persistence.Id;
 
 @Entity
 public class User implements Serializable {
-	
-
 	private static final long serialVersionUID = 1L;
 
-	@Id // primary key annotation
-	// @NotBlank Not null or not empty
-	// Possibly use javax.validation for automatic rejection of invalid requests, makes it easier
+	@Id
 	@GeneratedValue
+	@Column(name = "user_id")
 	private Long id;
 	
 	@Column(nullable = false, unique = true) 
@@ -37,12 +34,9 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private LocalDate creationDate;
 
+	// Getters & Setters
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getUsername() {

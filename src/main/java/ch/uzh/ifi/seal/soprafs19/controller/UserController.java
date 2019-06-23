@@ -39,7 +39,7 @@ public class UserController {
 
         return this.service.getUserByUserId(userId);}
 
-    @PostMapping("/login")
+    @PostMapping("/users/login")
     @ResponseStatus(HttpStatus.OK)
     User loginUser(@RequestBody User tempUser) {
         if (this.service.getUserByUsername(tempUser.getUsername()) == null) {
@@ -50,7 +50,7 @@ public class UserController {
         return this.service.loginUser(tempUser.getUsername(), tempUser.getPassword());
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/users/logout")
     @ResponseStatus(HttpStatus.OK)
     void logoutUser(@RequestHeader(value ="Access-Token") String token) {
         if (this.service.getUserByToken(token) == null) {
@@ -67,7 +67,7 @@ public class UserController {
         } else if (!this.service.getUserByUserId(userId).getToken().equals(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authorized!");
         } else if (this.service.getUserByUsername(tempUser.getUsername()) != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Already another user with the same name exists!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Another user with the same name already exists!");
         } else {
             this.service.updateUser(userId, tempUser.getUsername());
         }

@@ -27,8 +27,6 @@ import java.util.Iterator;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 
 public class UserServiceTest {
-
-
     @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
@@ -173,6 +171,5 @@ public class UserServiceTest {
 
         Assert.assertNotNull(userService.getUsers());
         Assert.assertEquals(createdUser, userService.getUserByToken(createdUser.getToken()));
-
     }
 }

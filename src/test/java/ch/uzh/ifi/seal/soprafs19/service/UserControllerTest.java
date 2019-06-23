@@ -37,21 +37,11 @@ import java.util.Date;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 
 public class UserControllerTest {
-
-    //@Qualifier("userRepository")
-
     @Autowired
     private MockMvc mockMvc;
 
-    @Qualifier ("userRepository")
-    @Autowired
-    private UserRepository userRepository;
-
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserController userController;
 
     @Test
     public void testGetUsers() throws Exception {
@@ -60,7 +50,6 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUser() throws Exception {
-        userRepository.deleteAll();
         this.mockMvc.perform(post("/users")
                 .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -69,8 +58,6 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUserConflict() throws Exception {
-        userRepository.deleteAll();
-
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -85,7 +72,6 @@ public class UserControllerTest {
 
     @Test
     public void testGetUserValidToken() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -97,7 +83,6 @@ public class UserControllerTest {
 
     @Test
     public void testGetUserInvalidToken() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -109,7 +94,6 @@ public class UserControllerTest {
 
     @Test
     public void testGetUserNotFound() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -121,7 +105,6 @@ public class UserControllerTest {
 
     @Test
     public void testLoginUser() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -129,7 +112,7 @@ public class UserControllerTest {
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
-        this.mockMvc.perform(post("/login")
+        this.mockMvc.perform(post("/users/login")
                 .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
@@ -139,7 +122,6 @@ public class UserControllerTest {
 
     @Test
     public void testLoginUserInvalid() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -147,7 +129,7 @@ public class UserControllerTest {
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
-        this.mockMvc.perform(post("/login")
+        this.mockMvc.perform(post("/users/login")
                 .content("{\"username\": \"testUsername\", \"password\" : \"wrongPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isUnauthorized());
@@ -157,7 +139,6 @@ public class UserControllerTest {
 
     @Test
     public void testLoginUserNotFound() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -165,7 +146,7 @@ public class UserControllerTest {
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
-        this.mockMvc.perform(post("/login")
+        this.mockMvc.perform(post("/users/login")
                 .content("{\"username\": \"wrongUsername\", \"password\" : \"wrongPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
@@ -175,7 +156,6 @@ public class UserControllerTest {
 
     @Test
     public void testLogoutUser() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -183,14 +163,14 @@ public class UserControllerTest {
         userService.createUser(testUser);
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.OFFLINE);
 
-        this.mockMvc.perform(post("/login")
+        this.mockMvc.perform(post("/users/login")
                 .content("{\"username\": \"testUsername\", \"password\" : \"testPassword\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
         Assert.assertEquals(userService.getUserByToken(testUser.getToken()).getStatus(), UserStatus.ONLINE);
 
-        this.mockMvc.perform(post("/logout")
+        this.mockMvc.perform(post("/users/logout")
                 .header("Access-Token", testUser.getToken())
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
@@ -200,7 +180,6 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUser() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -216,7 +195,6 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUserInvalid() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -232,7 +210,6 @@ public class UserControllerTest {
 
     @Test
     public void testUpdateUserNotFound() throws Exception {
-        userRepository.deleteAll();
         User testUser = new User();
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
@@ -245,6 +222,4 @@ public class UserControllerTest {
                 .header("Access-Token", createdUser.getToken()))
                 .andExpect(status().isNotFound());
     }
-
-
 }
