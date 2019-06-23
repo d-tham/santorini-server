@@ -55,9 +55,13 @@ public class User implements Serializable {
 		this.token = token;
 	}
 
-	public String getPassword() { return password; }
+	public String getPassword() {
+		return password;
+	}
 
-	public void setPassword(String password) { this.password = password;}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public UserStatus getStatus() {
 		return status;
@@ -67,10 +71,13 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
 
-	public LocalDate getCreationDate() {return creationDate; }
-
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
 
 	@Override
 	public boolean equals(Object o) {
