@@ -54,11 +54,11 @@ public class Field implements Serializable {
     }
 
     public void incTowerHeight() {
-        this.towerHeight++;
+        towerHeight++;
     }
 
     public Boolean isOccupied() {
-        return (worker != null && hasDome);
+        return (worker != null || hasDome);
     }
 
     @Override
