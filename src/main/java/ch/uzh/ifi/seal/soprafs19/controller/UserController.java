@@ -59,7 +59,6 @@ public class UserController {
         this.service.logoutUser(token);
     }
 
-    @CrossOrigin
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void updateUser(@RequestHeader(value = "Access-Token") String token, @PathVariable("userId") long userId, @RequestBody User tempUser) {
