@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(name="field_seq", sequenceName = "field_sequence")
+@SequenceGenerator(name="field_seq")
 public class Field implements Serializable {
     private static final long serialVersionUID = 1L;
 

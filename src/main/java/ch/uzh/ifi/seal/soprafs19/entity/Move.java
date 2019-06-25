@@ -1,4 +1,5 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
-public class Move {
+public class Move extends Action {
+
 }

@@ -7,12 +7,13 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name="game_seq")
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // Attributes
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_seq")
     @Column(name = "game_id")
     private Long id;
 

@@ -5,11 +5,12 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name="player_seq")
 public class Player implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_seq")
     @Column(name = "player_id")
     private Long id;
 
