@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository("userRepository")
-public interface UserRepository extends CrudRepository<User, Long> { // User (Type of object), Long(Type of ID column)
+public interface UserRepository extends CrudRepository<User, Long> {
 	User findById(long id);
 	User findByUsername(String username);
 	User findByToken(String token);

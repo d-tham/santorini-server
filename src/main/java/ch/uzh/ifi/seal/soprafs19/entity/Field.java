@@ -4,11 +4,12 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name="field_seq", sequenceName = "field_sequence")
 public class Field implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "field_seq")
     @Column(name = "field_id")
     private Long id;
 
@@ -27,6 +28,14 @@ public class Field implements Serializable {
 
     @Column(nullable = false)
     private Boolean hasDome;
+
+    // Constructor
+    public Field(Integer posX, Integer posY) {
+        this.posX = posX;
+        this.posY = posY;
+        towerHeight = 0;
+        hasDome = false;
+    }
 
     // Getters & Setters
     public Long getId() {
@@ -53,8 +62,16 @@ public class Field implements Serializable {
         return towerHeight;
     }
 
-    public void incTowerHeight() {
+    public void addBlock() {
         towerHeight++;
+    }
+
+    public Boolean getHasDome() {
+        return hasDome;
+    }
+
+    public void addDome() {
+        hasDome = true;
     }
 
     public Boolean isOccupied() {

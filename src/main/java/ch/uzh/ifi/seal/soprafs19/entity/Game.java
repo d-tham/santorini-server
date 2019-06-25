@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    // Attributes
     @Id
     @GeneratedValue
     @Column(name = "game_id")
@@ -24,6 +25,9 @@ public class Game implements Serializable {
     @Column(nullable = false)
     @OneToMany(mappedBy = "game")
     private List<Player> players;
+
+    @OneToMany(mappedBy = "game")
+    private List<Turn> turns;
 
     // Getters & Setters
     public Long getId() {
